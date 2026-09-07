@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自キャラ管理台帳</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="title">自キャラ管理<small>WORLD & CHARACTER ARCHIVE</small></div>
+</header>
+
+<nav>
+  <button id="tab-world" class="active" onclick="switchTab('world')">世界観設定</button>
+  <button id="tab-char" onclick="switchTab('char')">キャラクター</button>
+</nav>
+
+<main>
+  <div class="panel" id="panel-world"></div>
+  <div class="panel" id="panel-char" style="display:none;"></div>
+</main>
+
+<!-- world modal -->
+<div class="overlay" id="overlay-world">
+  <div class="modal">
+    <h2 id="world-modal-title">世界観設定を追加</h2>
+    <div class="form-grid">
+      <div class="form-field full">
+        <label>タイトル（例：国家/宗教/歴史/地理 など）</label>
+        <input type="text" id="w-title" placeholder="例：王国の成り立ち">
+      </div>
+      <div class="form-field full">
+        <label>内容</label>
+        <textarea id="w-content" rows="10" placeholder="自由に書いてください"></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="closeWorldModal()">キャンセル</button>
+      <button class="btn seal" onclick="saveWorld()">保存する</button>
+    </div>
+  </div>
+</div>
+
+<!-- character modal -->
+<div class="overlay" id="overlay-char">
+  <div class="modal" style="max-width:760px;">
+    <h2 id="char-modal-title">キャラクターを追加</h2>
+    <div class="form-grid" id="char-form-grid"></div>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="closeCharModal()">キャンセル</button>
+      <button class="btn seal" onclick="saveChar()">保存する</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/storage.js"></script>
+<script src="js/state.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/world.js"></script>
+<script src="js/character.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
