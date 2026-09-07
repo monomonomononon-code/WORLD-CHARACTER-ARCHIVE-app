@@ -24,6 +24,9 @@ const CHAR_BOXES = [
   { title:'外見', fields:[
       ['appearance','外見','textarea'], ['outfit','服装','textarea'], ['features','特徴','textarea']
   ]},
+  { title:'過去', fields:[
+      ['history','過去','textarea']
+  ]},
   { title:'趣味', fields:[
       ['hobby','趣味','textarea']
   ]},
