@@ -12,6 +12,7 @@
 
 <header>
   <div class="title">自キャラ管理<small>WORLD & CHARACTER ARCHIVE</small></div>
+  <button class="btn ghost small" onclick="openBackupModal()">バックアップ</button>
 </header>
 
 <nav>
@@ -57,6 +58,41 @@
   </div>
 </div>
 
+<!-- backup modal -->
+<div class="overlay" id="overlay-backup">
+  <div class="modal" style="max-width:560px;">
+    <h2>バックアップ / データ移行</h2>
+
+    <div class="backup-section">
+      <h3>書き出す（このブラウザのデータを保存）</h3>
+      <p class="backup-desc">ファイルとしてダウンロードします。それをスマホに送って読み込めば、データを移せます（メール添付・LINE・クラウドストレージなど、送り方は何でも構いません）。</p>
+      <div class="backup-actions">
+        <button class="btn seal" onclick="exportBackupFile()">ファイルをダウンロード</button>
+        <button class="btn ghost" onclick="copyBackupText()">JSONをコピー</button>
+      </div>
+    </div>
+
+    <div class="backup-section">
+      <h3>読み込む（ファイルからデータを復元）</h3>
+      <p class="backup-desc">上記でダウンロードしたバックアップファイル（.json）を選んでください。</p>
+      <input type="file" id="backup-file-input" accept="application/json,.json" onchange="importBackupFromFile(event)">
+    </div>
+
+    <div class="backup-section">
+      <h3>読み込む（JSONを貼り付け）</h3>
+      <p class="backup-desc">ファイル選択がうまくいかない場合は、コピーしておいたJSONをここに貼り付けてください。</p>
+      <textarea id="backup-paste-input" rows="4" placeholder="{ &quot;worlds&quot;: [...], &quot;characters&quot;: [...] }"></textarea>
+      <div class="backup-actions">
+        <button class="btn ghost" onclick="importBackupFromPaste()">貼り付けた内容を読み込む</button>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="closeBackupModal()">閉じる</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script src="js/storage.js"></script>
@@ -64,6 +100,7 @@
 <script src="js/utils.js"></script>
 <script src="js/world.js"></script>
 <script src="js/character.js"></script>
+<script src="js/backup.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
