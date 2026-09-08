@@ -309,6 +309,7 @@ button.btn:disabled{ opacity:.4; cursor:not-allowed; }
   width:100%;
   max-width:640px;
   padding:26px;
+  box-sizing:border-box;
 }
 .modal h2{
   margin:0 0 18px;
@@ -320,8 +321,10 @@ button.btn:disabled{ opacity:.4; cursor:not-allowed; }
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:14px 16px;
+  min-width:0;
 }
 .form-grid .full{ grid-column:1 / -1; }
+.form-field{ min-width:0; }
 .form-field label{
   display:block;
   font-size:12px;
@@ -356,11 +359,11 @@ button.btn:disabled{ opacity:.4; cursor:not-allowed; }
 }
 .form-section-title.first{ border-top:none; padding-top:0; margin-top:0;}
 
-.rel-editor{ grid-column:1/-1; }
+.rel-editor{ grid-column:1/-1; min-width:0; }
 .rel-editor-row{
   display:flex; gap:8px; margin-bottom:8px;
 }
-.rel-editor-row input{ flex:1; }
+.rel-editor-row input{ flex:1; min-width:0; }
 .rel-editor-row button{
   flex:0 0 auto;
   background:none;
@@ -372,7 +375,7 @@ button.btn:disabled{ opacity:.4; cursor:not-allowed; }
   padding:0 10px;
 }
 .rel-add-row{ display:flex; gap:8px; margin-top:4px; }
-.rel-add-row input{ flex:1; }
+.rel-add-row input{ flex:1; min-width:0; }
 
 .modal-actions{
   display:flex;
@@ -443,4 +446,9 @@ button.btn:disabled{ opacity:.4; cursor:not-allowed; }
   .form-grid{ grid-template-columns:1fr; }
   .field-row{ flex-direction:column; gap:2px; }
   .field-row .label{ flex:none; }
+  .overlay{ padding:20px 10px; }
+  .modal{ padding:18px; }
+  .rel-editor-row{ flex-wrap:wrap; }
+  .rel-editor-row input{ flex:1 1 100%; }
+  .rel-editor-row button{ margin-left:auto; }
 }
