@@ -34,7 +34,8 @@ function renderProjectPanel(){
     ${projects.length === 0 ? `<div class="empty-hint">まだ作品がありません。「＋ 作品を追加」から登録してください。</div>` : `
       <div class="entity-grid">
         ${projects.map(p => `
-          <div class="entity-card" onclick="enterProject('${p.id}')">
+          <div class="entity-card project-card" onclick="enterProject('${p.id}')">
+            <button class="edit" onclick="event.stopPropagation(); openProjectModal('${p.id}')">✎</button>
             <button class="del" onclick="event.stopPropagation(); deleteProject('${p.id}')">✕</button>
             <div class="name">${escapeHtml(p.name || '(無題)')}</div>
             <div class="meta">${worlds.filter(w=>w.projectId===p.id).length}件の世界観 ・ ${characters.filter(c=>c.projectId===p.id).length}人のキャラクター</div>
