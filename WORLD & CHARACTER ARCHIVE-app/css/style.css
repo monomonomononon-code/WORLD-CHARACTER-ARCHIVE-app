@@ -190,6 +190,17 @@ button.btn:disabled{ opacity:.4; cursor:not-allowed; }
   line-height:1;
 }
 .entity-card .del:hover{ color:var(--accent); }
+.entity-card .edit{
+  position:absolute;
+  top:10px; right:32px;
+  background:none;border:none;
+  color:var(--sub);
+  font-size:13px;
+  cursor:pointer;
+  line-height:1;
+}
+.entity-card .edit:hover{ color:var(--accent); }
+.project-card .name{ padding-right:44px; }
 .empty-hint{
   color:var(--sub);
   font-size:13px;
