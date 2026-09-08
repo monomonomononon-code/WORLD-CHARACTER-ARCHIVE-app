@@ -1,11 +1,14 @@
 /* ============ app state ============ */
+let projects = [];
 let worlds = [];
 let characters = [];
 let currentTab = 'world';
+let currentProjectId = null; // null = 作品一覧を表示中
 let openWorldId = null;    // detail view target
 let openCharId = null;
 let editingWorldId = null; // null = new
 let editingCharId = null;
+let editingProjectId = null; // null = new
 let relDraft = [];         // relationships being edited in modal
 
 /* ============ field definitions ============ */
