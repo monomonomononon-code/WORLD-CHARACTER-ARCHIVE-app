@@ -13,8 +13,9 @@ function closeBackupModal(){
 function buildBackupPayload(){
   return {
     app: BACKUP_APP_ID,
-    version: 1,
+    version: 2,
     exportedAt: new Date().toISOString(),
+    projects,
     worlds,
     characters,
   };
@@ -103,28 +104,33 @@ async function applyBackupJson(text){
     toast('バックアップデータの形式が正しくありません');
     return;
   }
+  const incomingProjects = Array.isArray(data.projects) ? data.projects : [];
 
-  const hasExisting = worlds.length > 0 || characters.length > 0;
+  const hasExisting = projects.length > 0 || worlds.length > 0 || characters.length > 0;
   const overwrite = hasExisting
     ? confirm('現在のデータを、読み込んだバックアップの内容で上書きします。よろしいですか？\n（キャンセルすると、重複しない項目だけを追加します）')
     : true;
 
   if(overwrite){
+    projects = incomingProjects;
     worlds = data.worlds;
     characters = data.characters;
   }else{
+    const existingProjectIds = new Set(projects.map(p => p.id));
+    incomingProjects.forEach(p => { if(!existingProjectIds.has(p.id)) projects.push(p); });
     const existingWorldIds = new Set(worlds.map(w => w.id));
     data.worlds.forEach(w => { if(!existingWorldIds.has(w.id)) worlds.push(w); });
     const existingCharIds = new Set(characters.map(c => c.id));
     data.characters.forEach(c => { if(!existingCharIds.has(c.id)) characters.push(c); });
   }
 
+  // バックアップが旧形式（作品なし）の場合に備えて、未割り当ての項目をまとめる
+  await ensureProjectAssignment();
+
+  await saveData('projects', projects);
   await saveData('worlds', worlds);
   await saveData('characters', characters);
-  openWorldId = null;
-  openCharId = null;
-  renderWorldPanel();
-  renderCharPanel();
+  exitProject();
   closeBackupModal();
   toast(overwrite ? 'バックアップを読み込みました' : '重複しない項目を追加しました');
 }
