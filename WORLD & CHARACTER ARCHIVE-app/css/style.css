@@ -83,6 +83,20 @@ nav button.active{
   border-bottom-color:var(--accent);
 }
 
+.project-bar{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  padding:14px 24px 0;
+  max-width:1100px;
+  margin:0 auto;
+}
+.project-bar-name{
+  font-size:13px;
+  font-weight:700;
+  color:var(--ink);
+}
+
 main{
   max-width:1100px;
   margin:0 auto;
@@ -315,7 +329,7 @@ button.btn:disabled{ opacity:.4; cursor:not-allowed; }
   margin-bottom:5px;
   letter-spacing:.02em;
 }
-.form-field input, .form-field textarea{
+.form-field input, .form-field textarea, .form-field select{
   width:100%;
   font-family:'Zen Kaku Gothic New', sans-serif;
   font-size:14px;
@@ -325,7 +339,7 @@ button.btn:disabled{ opacity:.4; cursor:not-allowed; }
   background:#fff;
   color:var(--ink);
 }
-.form-field input:focus, .form-field textarea:focus{
+.form-field input:focus, .form-field textarea:focus, .form-field select:focus{
   outline:none;
   border-color:var(--accent);
 }
@@ -367,6 +381,46 @@ button.btn:disabled{ opacity:.4; cursor:not-allowed; }
   margin-top:22px;
   padding-top:16px;
   border-top:1px solid var(--line);
+}
+
+.backup-section{
+  border-top:1px solid var(--line);
+  padding:16px 0;
+}
+.backup-section:first-of-type{ border-top:none; padding-top:0; }
+.backup-section h3{
+  font-size:13px;
+  margin:0 0 6px;
+}
+.backup-desc{
+  font-size:12.5px;
+  color:var(--sub);
+  line-height:1.7;
+  margin:0 0 10px;
+}
+.backup-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+#backup-file-input{
+  font-size:13px;
+}
+#backup-paste-input{
+  width:100%;
+  font-family:'Zen Kaku Gothic New', sans-serif;
+  font-size:12.5px;
+  padding:9px 10px;
+  border:1px solid var(--line-strong);
+  border-radius:4px;
+  background:#fff;
+  color:var(--ink);
+  resize:vertical;
+}
+#backup-paste-input:focus{
+  outline:none;
+  border-color:var(--accent);
 }
 
 .toast{
