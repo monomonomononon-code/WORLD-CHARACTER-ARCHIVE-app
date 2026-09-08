@@ -14,7 +14,7 @@ async function ensureProjectAssignment(){
 
   let target = projects[0];
   if(!target){
-    target = { id: crypto.randomUUID(), name: 'これまでのデータ' };
+    target = { id: crypto.randomUUID(), name: '未分類' };
     projects.push(target);
     await saveData('projects', projects);
   }
