@@ -1,4 +1,6 @@
 /* ============ CHARACTER (キャラクター) ============ */
+function charsInProject(){ return characters.filter(c => c.projectId === currentProjectId); }
+
 function renderCharPanel(){
   const el = document.getElementById('panel-char');
   if(openCharId){
@@ -7,17 +9,18 @@ function renderCharPanel(){
     el.innerHTML = renderCharDetail(c);
     return;
   }
+  const list = charsInProject();
   el.innerHTML = `
     <div class="panel-toolbar">
-      <span class="count">${characters.length}人のキャラクター</span>
+      <span class="count">${list.length}人のキャラクター</span>
       <div style="display:flex; gap:8px;">
-        ${characters.length ? `<button class="btn ghost small" onclick="copyText(allCharsToText(), 'キャラクターを全員コピーしました')">全員コピー</button>` : ''}
+        ${list.length ? `<button class="btn ghost small" onclick="copyText(allCharsToText(), 'キャラクターを全員コピーしました')">全員コピー</button>` : ''}
         <button class="btn" onclick="openCharModal()">＋ キャラクターを追加</button>
       </div>
     </div>
-    ${characters.length === 0 ? `<div class="empty-hint">まだキャラクターがいません。「＋ キャラクターを追加」から登録してください。</div>` : `
+    ${list.length === 0 ? `<div class="empty-hint">まだキャラクターがいません。「＋ キャラクターを追加」から登録してください。</div>` : `
       <div class="entity-grid">
-        ${characters.map(c => `
+        ${list.map(c => `
           <div class="entity-card" onclick="openCharId='${c.id}'; renderCharPanel();">
             <button class="del" onclick="event.stopPropagation(); deleteChar('${c.id}')">✕</button>
             <div class="name">${escapeHtml(nameLabel(c))}</div>
@@ -115,20 +118,26 @@ function charToText(c){
   return parts.join('\n\n');
 }
 function allCharsToText(){
-  return characters.map(charToText).join('\n\n════════════════\n\n');
+  return charsInProject().map(charToText).join('\n\n════════════════\n\n');
 }
 
 /* ---- character modal ---- */
 function openCharModal(id){
   editingCharId = id || null;
-  const c = id ? getChar(id) : emptyChar();
+  const c = id ? getChar(id) : Object.assign(emptyChar(), { projectId: currentProjectId });
   relDraft = JSON.parse(JSON.stringify(c.relationships || []));
   document.getElementById('char-modal-title').textContent = id ? 'キャラクターを編集' : 'キャラクターを追加';
 
   const grid = document.getElementById('char-form-grid');
-  let html = '';
-  CHAR_BOXES.forEach((box, bi) => {
-    html += `<div class="form-section-title${bi===0?' first':''}">${box.title}</div>`;
+  let html = `
+    <div class="form-section-title first">作品</div>
+    <div class="form-field full">
+      <label>作品</label>
+      <select id="c-project">${projectOptionsHtml(c.projectId)}</select>
+    </div>
+  `;
+  CHAR_BOXES.forEach((box) => {
+    html += `<div class="form-section-title">${box.title}</div>`;
     box.fields.forEach(([key,label,type]) => {
       const val = escapeHtml(c[key]||'');
       html += `
@@ -176,6 +185,7 @@ function closeCharModal(){ document.getElementById('overlay-char').classList.rem
 
 async function saveChar(){
   const data = editingCharId ? getChar(editingCharId) : emptyChar();
+  data.projectId = document.getElementById('c-project').value;
   CHAR_BOXES.forEach(box => box.fields.forEach(([key]) => {
     const field = document.getElementById(`f-${key}`);
     if(field) data[key] = field.value.trim();
@@ -188,6 +198,7 @@ async function saveChar(){
   await saveData('characters', characters);
   closeCharModal();
   renderCharPanel();
+  renderProjectPanel();
   toast('保存しました');
 }
 async function deleteChar(id){
@@ -195,4 +206,5 @@ async function deleteChar(id){
   await saveData('characters', characters);
   if(openCharId===id) openCharId=null;
   renderCharPanel();
+  renderProjectPanel();
 }
